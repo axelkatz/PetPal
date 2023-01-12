@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<ui:insert name="head" />
+	<h:outputStylesheet library="css" name="myStyle.css" />
+</h:head>
+
+<h:body>
+	<b:form>
+	<div class="bg-success header flex-justify-center flex-align-center">
+		<div>Pet Pal
+			<b:iconAwesome styleClass="text-orange" value="paw" solid="true"/>
+		</div>
+	</div>
+
+		<b:navBar brand="#{mbLogin.connectedOwner.name} #{mbLogin.connectedOwner.surname}">
+			<b:navbarLinks pull="right">
+				<b:navLink styleClass="#{mbArch.navLinkStyle('index.xhtml')}" value="Accueil" icon-awesome="home" href="index.xhtml"/>
+				<b:navLink styleClass="#{mbArch.navLinkStyle('space.xhtml')}" value="Mon espace" icon-awesome="user" href="space.xhtml"
+						   rendered="#{mbLogin.isConnected()}" />
+				<b:navLink styleClass="#{mbArch.navLinkStyle('gallery.xhtml')}" value="Gallerie" icon-awesome="star" href="gallery.xhtml"
+						   rendered="#{mbLogin.isConnected()}" />
+				<b:navLink styleClass="#{mbArch.navLinkStyle('glossary.xhtml')}" value="Glossaire" icon-awesome="book" href="glossary.xhtml" />
+				<b:navLink styleClass="#{mbArch.navLinkStyle('login.xhtml')}" value="Connexion" icon-awesome="key" href="login.xhtml"
+						   rendered="#{!mbLogin.isConnected()}" />
+				<b:navCommandLink value="Déconnexion" action="#{mbLogin.disconnect()}" icon-awesome="key"
+								  rendered="#{mbLogin.isConnected()}" />
+			</b:navbarLinks>
+		</b:navBar>
+	</b:form>
+
+	<b:container>
+		<b:row>
+			<b:column style-class="content">
+				<ui:insert name="content" />
+			</b:column>
+		</b:row>
+	</b:container>
+	<div class="bg-success footer flex-justify-center flex-align-center">
+		<div>petpal - 2022</div>
+	</div>
+</h:body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="/arch.xhtml">
+
+	<ui:define name="head">
+		<title>Identification</title>
+		<f:metadata>
+			<f:event listener="#{mbLogin.disconnect()}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<b:form id="loginForm">
+			<b:panel
+				style-class="mt-3rem mb-5rem 
+				col-sm-offset-1 col-md-offset-2 col-xs-12 col-sm-10 col-md-8">
+				<b:row>
+					<b:column
+						style-class="hidden-xs mt-1rem col-sm-offset-1 col-sm-2 col-md-2">
+						<h:outputText value="Identifiant" />
+					</b:column>
+					<b:column
+						style-class="hidden-sm hidden-md hidden-lg col-xs-offset-1 col-xs-10">
+						<h:outputText value="Identifiant" />
+					</b:column>
+					<b:column
+						style-class="col-xs-offset-1 col-sm-offset-0 col-xs-10 col-sm-8 col-md-8">
+						<b:inputText id="inpLogin"
+							placeholder="Veuillez entrer un identifiant"
+							value="#{mbLogin.login}">
+							<f:facet name="prepend">
+								<b:icon name="user" />
+							</f:facet>
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column
+						style-class="hidden-xs mt-1rem col-sm-offset-1 col-sm-2 col-md-2">
+						<h:outputText value="Mot de passe" />
+					</b:column>
+					<b:column
+						style-class="hidden-sm hidden-md hidden-lg col-xs-offset-1 col-xs-10">
+						<h:outputText value="Mot de passe" />
+					</b:column>
+					<b:column
+						style-class="col-xs-offset-1 col-sm-offset-0 col-xs-10 col-sm-8 col-md-8">
+						<b:inputSecret id="inpPassword"
+							placeholder="Veuillez entrer un mot de passe"
+							value="#{mbLogin.password}">
+							<f:facet name="prepend">
+								<b:iconAwesome name="key" />
+							</f:facet>
+						</b:inputSecret>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column>
+						<b:message for="inpPassword" />
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column
+						style-class="p-1rem col-xs-offset-1 col-sm-offset-1 col-xs-10 col-sm-10 col-md-4">
+						<b:commandButton style-class="w-100" value="Connexion"
+							action="#{mbLogin.connect()}" />
+					</b:column>
+					<b:column
+						style-class="p-1rem col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-xs-10 col-sm-10 col-md-4">
+						<b:commandButton style-class="w-100"
+							value="Mot de Passe oublié" action="#{mbLogin.connect()}" />
+					</b:column>
+				</b:row>
+			</b:panel>
+		</b:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>

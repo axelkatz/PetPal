@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="/arch.xhtml">
+	
+	<ui:define name="head">
+		<title>Glossaire</title>
+	</ui:define>
+
+	<ui:define name="content">
+		<b:form>
+			<h3>Glossaire :
+				<br />
+				<ui:repeat value="#{mbGlossary.expressions}" var="expression">
+					<b:row>
+						<b:column styleClass="col-sm-12 col-md-4 col-lg-3">
+							<br />
+							<b><b:commandLink update="@form"
+									styleClass="#{expression.equals(mbGlossary.selectedExpression) ? 'text-orange' : ''}"
+									value="#{expression}" action="#{mbGlossary.updateSelectedExpression(expression)}"
+							/></b>
+						</b:column>
+						<b:column style-class="col-sm-12 col-md-8 col-lg-9" rendered="#{expression.equals(mbGlossary.selectedExpression)}">
+							<b:panel>
+								<h4><h:outputText value="#{expression.equals(mbGlossary.selectedExpression) ? mbGlossary.fetchExtract() : null}" /></h4>
+							</b:panel>
+						</b:column>
+					</b:row>
+				</ui:repeat>
+			</h3>
+		</b:form>
+	</ui:define>
+	
+</ui:composition>
+
+</html>

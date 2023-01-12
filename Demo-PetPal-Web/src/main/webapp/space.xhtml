@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="/arch.xhtml">
+	
+	<ui:define name="head">
+		<title>Compte</title>
+		<f:metadata>
+			<f:event listener="#{mbLogin.authorise()}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<b:row>
+			<b:column styleClass="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+				<b:row>
+					<b:column styleClass="mb-1rem col-xs-6 col-sm-6">
+						<h3>Mes animaux favoris :
+							<br />
+							<ui:repeat value="#{mbSpace.caseCorrectedFavoritePets()}" var="favoritePet">
+								<br />
+								<h:outputLabel value="#{favoritePet}" />
+							</ui:repeat>
+						</h3>
+					</b:column>
+					<b:column styleClass="col-xs-6 col-sm-6">
+						<b:form id="catSelection">
+							<h3>Mes chats :
+								<br />
+								<ui:repeat value="#{mbSpace.connectedOwner.pets}" var="pet">
+									<br />
+									<b><b:commandLink update="catSelection catPanels"
+											styleClass="#{pet.name.equals(mbSpace.selectedPet.name) ? 'text-orange' : ''}"
+											value="#{pet.name}" action="#{mbSpace.updateSelectedPet(pet)}"
+									/></b>
+								</ui:repeat>
+							</h3>
+						</b:form>
+					</b:column>
+				</b:row>
+			</b:column>
+			<b:column styleClass="mt-2rem col-xs-12 col-sm-12 col-md-8 col-lg-9">
+				<b:form id="catPanels">
+					<b:panel>
+						<h4>Race : <h:outputLabel value="#{mbSpace.catBreed(mbSpace.selectedPet)}" /></h4>
+						<h4>Date de naissance : <h:outputLabel value="#{mbSpace.fullDate(mbSpace.selectedPet.birthDate)}" /></h4>
+						<b:image name="#{mbSpace.selectedPet.picture}" width="100%" styleClass="mb-1rem"/>
+					</b:panel>
+					<b:panel title="Créer un mouveau chat" titleClass="text-bold" collapsed="true">
+						<b:row>
+							<b:column style-class="col-xs-3 col-md-3">
+								<h:outputText value="Nom" />
+							</b:column>
+							<b:column  style-class="col-xs-9 col-md-9">
+								<b:inputText id="newCatName" placeholder="Veuillez entrer le nom du chat" value="#{mbSpace.newCatName}" />
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column style-class="col-xs-3 col-md-3">
+								<h:outputText value="Race" />
+							</b:column>
+							<b:column style-class="col-xs-9 col-md-9">
+								<b:selectOneMenu id="newCatBreed" value="#{mbSpace.newCatBreed}">
+									<f:selectItem itemLabel="Veuillez sélectionner une race"
+												  itemDisabled="true" noSelectionOption="true"/>
+									<f:selectItems
+											value="#{mbSpace.catBreeds}"
+											var="breed"
+											itemValue="#{breed}"
+											itemLabel="#{breed}"
+									/>
+								</b:selectOneMenu>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column style-class="col-xs-3 col-md-3">
+								<h:outputText value="Date de naissance" />
+							</b:column>
+							<b:column style-class="col-xs-9 col-md-9">
+								<b:datepicker id="newCatBirthDate" placeholder="Veuillez entrer une date de naissance" value="#{mbSpace.newCatBirthDate}" />
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column style-class="p-1rem col-xs-offset-4 col-xs-4 col-md-4">
+								<b:commandButton style-class="w-100" value="Créer le chat" ajax="true"
+												 action="#{mbSpace.insertCat()}" update="catSelection catPanels" >
+								</b:commandButton>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column>
+								<b:message for="newCatName" />
+								<b:message for="newCatBreed" />
+								<b:message for="newCatBirthDate" />
+							</b:column>
+						</b:row>
+					</b:panel>
+				</b:form>
+			</b:column>
+		</b:row>
+	</ui:define>
+	
+</ui:composition>
+
+</html>

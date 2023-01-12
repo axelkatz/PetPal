@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="/arch.xhtml">
+	
+	<ui:define name="head">
+		<title>Gallerie</title>
+		<f:metadata>
+			<f:event listener="#{mbLogin.authorise()}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+		<b:form>
+			<b:row>
+				<b:column styleClass="col-xs-8 col-sm-6 col-md-4 col-lg-4 col-xs-offset-2 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+					<b:selectOneMenu
+							valueChangeListener="#{mbGallery.resetSelectedCat()}"
+							id="ddlOwners"
+							value="#{mbGallery.selectedOwner}"
+							label="Propriétaire"
+							update="ddlCats panCat">
+						<f:selectItem itemLabel="-"  itemDisabled="true" noSelectionOption="true"/>
+						<f:selectItems
+								value="#{mbGallery.owners}"
+								var="owner"
+								itemValue="#{owner}"
+								itemLabel="#{owner.name} #{owner.surname}"
+						/>
+					</b:selectOneMenu>
+				</b:column>
+				<b:column styleClass="col-xs-8 col-sm-6 col-md-4 col-lg-4 col-xs-offset-2 col-sm-offset-3 col-md-offset-0 col-lg-offset-0">
+					<b:selectOneMenu
+							id="ddlCats"
+							value="#{mbGallery.selectedCat}"
+							label="Chat"
+							update="panCat">
+						<f:selectItem itemLabel="-"  itemDisabled="true" noSelectionOption="true"/>
+						<f:selectItems
+								value="#{(mbGallery.getOwnerUpdatedWithPets(mbGallery.selectedOwner).pets)}"
+								var="cat"
+								itemValue="#{cat}"
+								itemLabel="#{cat.name}"
+						/>
+					</b:selectOneMenu>
+				</b:column>
+			</b:row>
+			<b:panel id="panCat" styleClass="#{mbGallery.selectedCat == null ? 'off-screen' : ''}">
+				<b:row rendered="#{mbGallery.selectedCat != null}">
+					<b:column>
+						<h4>Race : <h:outputLabel value="#{mbGallery.caseCorrectedSelectedCatBreed()}" /></h4>
+						<h4>Date de naissance : <h:outputLabel value="#{mbGallery.selectedCatFullBirthDate()}" /></h4>
+						<b:image name="#{mbGallery.selectedCat.picture}" width="100%" styleClass="mb-1rem"/>
+					</b:column>
+				</b:row>
+			</b:panel>
+		</b:form>
+	</ui:define>
+	
+</ui:composition>
+
+</html>
